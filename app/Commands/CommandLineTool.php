@@ -30,18 +30,45 @@ class CommandLineTool extends Command
       */
      public function handle()
      {
-       if(strcasecmp($this->argument('type'), "Matrix") == 0){
-         $encryptor = new MatrixEncryptor();
-       }
-       else {
-         $encryptor = new ShiftEncryptor();
-       }
 
-       if(strcasecmp($this->argument('method'), "Decrypt") == 0){
-         $result = $encryptor->decrypt($this->argument('string'));
+       if (strcasecmp($this->argument('type'), "Reverse") == 0) {
+         $client = new \GuzzleHttp\Client();
+         if(strcasecmp($this->argument('method'), "Decrypt") == 0){
+           $res = $client->post('http://backendtask.robustastudio.com/decode', [
+             'headers' => [
+               'Content-Type' => 'application/json',
+             ],
+             'json' => [
+               'string' => $this->argument('string'),
+             ]
+           ]);
+         }
+         else {
+           $res = $client->post('http://backendtask.robustastudio.com/encode', [
+             'headers' => [
+               'Content-Type' => 'application/json',
+             ],
+             'json' => [
+               'string' => $this->argument('string'),
+             ]
+           ]);
+         }
+         $result = json_decode($res->getBody()->getContents(),true)["string"];
        }
        else {
-         $result = $encryptor->encrypt($this->argument('string'));
+         if(strcasecmp($this->argument('type'), "Matrix") == 0){
+           $encryptor = new MatrixEncryptor();
+         }
+         else {
+           $encryptor = new ShiftEncryptor();
+         }
+
+         if(strcasecmp($this->argument('method'), "Decrypt") == 0){
+           $result = $encryptor->decrypt($this->argument('string'));
+         }
+         else {
+           $result = $encryptor->encrypt($this->argument('string'));
+         }
        }
 
        $this -> info($result);

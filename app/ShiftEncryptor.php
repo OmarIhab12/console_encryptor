@@ -14,11 +14,12 @@ class ShiftEncryptor implements Encryptor {
     $dictionary_length = strlen($dictionary);
 
     for ($i = 0; $i < strlen($unencryted_string); $i++) {
-      if($unencryted_string[$i] == " ") {
-        $encrypted_string .= " ";
+      $position = stripos($dictionary, $unencryted_string[$i]);
+      if($position === false) {
+        $encrypted_string .= $unencryted_string[$i];
       }
       else {
-        $position = stripos($dictionary, $unencryted_string[$i]) + 3;
+        $position += 3;
 
         if ($position >= $dictionary_length)
         {
@@ -45,12 +46,13 @@ class ShiftEncryptor implements Encryptor {
     $dictionary_length = strlen($dictionary);
 
     for ($i = 0; $i < strlen($encryted_string); $i++) {
-      if($encryted_string[$i] == " ") {
-        $decrypted_string .= " ";
+      $position = stripos($dictionary, $encryted_string[$i]);
+      if($position === false) {
+        $decrypted_string .= $encryted_string[$i];
       }
       else {
 
-        $position = stripos($dictionary, $encryted_string[$i]) - 3;
+        $position -= 3;
 
         if ($position < 0)
         {

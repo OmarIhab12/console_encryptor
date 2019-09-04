@@ -39,6 +39,12 @@ class ShiftAlgorithmTest extends TestCase
       $result = $encryptor->encrypt(" ");
       $this->assertEquals($result, " ");
 
+      $result = $encryptor->encrypt("#$%^&*#@");
+      $this->assertEquals($result, "#$%^&*#@");
+
+      $result = $encryptor->encrypt("a#$%^&*#@B");
+      $this->assertEquals($result, "d#$%^&*#@E");
+
       $result = $encryptor->encrypt(null);
       $this->assertEquals($result, null);
 
@@ -64,6 +70,12 @@ class ShiftAlgorithmTest extends TestCase
 
       $result = $encryptor->decrypt(" ");
       $this->assertEquals($result, " ");
+
+      $result = $encryptor->decrypt("#$%^&*#@");
+      $this->assertEquals($result, "#$%^&*#@");
+
+      $result = $encryptor->decrypt("d#$%^&*#@E");
+      $this->assertEquals($result, "a#$%^&*#@B");
 
       $result = $encryptor->decrypt(null);
       $this->assertEquals($result, null);

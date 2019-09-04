@@ -28,7 +28,7 @@ class ReverseEncrypt extends Command
      */
     public function handle()
     {
-      $client = new \GuzzleHttp\Client(['base_uri' => 'http://backendtask.robustastudio.com/encode']);
+      $client = new \GuzzleHttp\Client();
       $res = $client->post('http://backendtask.robustastudio.com/encode', [
         'headers' => [
           'Content-Type' => 'application/json',
